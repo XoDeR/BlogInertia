@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class PostController extends Controller
 {
@@ -15,6 +17,10 @@ class PostController extends Controller
 
         return view('posts.index', ['posts' => $posts]);
         */
+
+        return Inertia::render('Posts/Index', [
+            //
+        ]);
     }
 
     public function show(Post $post)

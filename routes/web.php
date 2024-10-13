@@ -26,13 +26,14 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware('guest')->group(function () {
-    Route::get('/posts', [PostController::class, 'index'])->name('posts');
+
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('posts.show');
     Route::get('/posts/edit/{post}', [PostController::class, 'startEdit'])->name('posts.startEdit');
     Route::patch('/posts/edit/{post}', [PostController::class, 'edit'])->name('posts.edit');
+    Route::get('/posts', [PostController::class, 'index'])->name('posts');
     Route::post('/posts', [PostController::class, 'store']);
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
 });
