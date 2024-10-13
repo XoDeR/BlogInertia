@@ -5,7 +5,7 @@ import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm, Head } from '@inertiajs/vue3';
  
 const form = useForm({
-    message: '',
+    body: '',
 });
 </script>
  
@@ -16,7 +16,7 @@ const form = useForm({
         <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
             <form @submit.prevent="form.post(route('posts.store'), { onSuccess: () => form.reset() })">
                 <textarea
-                    v-model="form.message"
+                    v-model="form.body"
                     placeholder="Post something!"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 ></textarea>
