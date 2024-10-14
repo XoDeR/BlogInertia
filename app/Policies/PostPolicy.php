@@ -8,6 +8,11 @@ use Illuminate\Auth\Access\Response;
 
 class PostPolicy
 {
+    private function getIsPostByUser(User $user, Post $post): bool
+    {
+        return $post->user()->is($user);
+    }
+
     /**
      * Determine whether the user can view any models.
      */
@@ -37,7 +42,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post): bool
     {
-        return $post->user()->is($user);
+        return $this->getIsPostByUser($user, $post);
     }
 
     /**
@@ -45,7 +50,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post): bool
     {
-        //
+        return $this->getIsPostByUser($user, $post);
     }
 
     /**

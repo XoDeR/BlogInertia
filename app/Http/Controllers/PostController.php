@@ -78,14 +78,10 @@ class PostController extends Controller
         return redirect(route('posts'));
     }
 
-    public function destroy(Post $post)
+    public function destroy(Post $post): RedirectResponse
     {
-        /*
         Gate::authorize('delete', $post);
-
         $post->delete();
-
-        return back();
-        */
+        return redirect(route('posts'));
     }
 }
