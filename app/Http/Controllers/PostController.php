@@ -14,12 +14,6 @@ class PostController extends Controller
 {
     public function index()
     {
-        /*
-        $posts = Post::orderBy('created_at', 'desc')->with(['user', 'likes'])->paginate(20);
-
-        return view('posts.index', ['posts' => $posts]);
-        */
-
         return Inertia::render('Posts/Index', [
             'posts' => Post::orderBy('created_at', 'desc')->with(['user', 'likes'])->get()->map(function ($post) {
                 $post['isPostLikedByCurrentUser'] = $post->likedBy(Auth::user());
@@ -30,9 +24,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        /*
-        return view('posts.show', ['post' => $post]);
-        */
+        //
     }
 
     public function store(Request $request): RedirectResponse
@@ -48,29 +40,11 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        /*
-        Gate::authorize('startEdit', $post);
-
-        return view('posts.edit', ['post' => $post]);
-        */
+        //
     }
 
     public function update(Request $request, Post $post): RedirectResponse
     {
-        /*
-        Gate::authorize('edit', $post);
-
-        $validated = $request->validate([
-            'body' => 'required'
-        ]);
-
-        Post::find($post->id)->update([
-            'body' => $request->body
-        ]);
-        $post->refresh();
-
-        return redirect()->action([PostController::class, 'index']);
-        */
         Gate::authorize('update', $post);
 
         $validated = $request->validate([
