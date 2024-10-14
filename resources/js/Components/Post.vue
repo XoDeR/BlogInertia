@@ -26,6 +26,10 @@ const pluralize = (count, noun, suffix = 's') =>
 
 const likesMessage = computed(() => {
     return pluralize(props.post.likes.length, 'like');
+});
+
+const isPostLikedByCurrentUser = computed(() => {
+    return props.post.isPostLikedByCurrentUser === true;
 })
 
 </script>
@@ -70,14 +74,14 @@ const likesMessage = computed(() => {
             </form>
             <p v-else class="mt-4 text-lg text-gray-900">{{ post.body }}</p>
             <div class="flex items-center">
-                <Link
+                <Link v-if="!isPostLikedByCurrentUser"
                     as="button"
                     :href="route('posts.likes', post.id)" method="post"
                     class="block w-20 px-4 py-2 text-start text-sm leading-5 text-blue-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                 >
                     Like
                 </Link>
-                <Link
+                <Link v-else
                     as="button"
                     :href="route('posts.likes', post.id)" method="delete"
                     class="block w-20 px-4 py-2 text-start text-sm leading-5 text-blue-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -20,7 +21,10 @@ class PostController extends Controller
         */
 
         return Inertia::render('Posts/Index', [
-            'posts' => Post::orderBy('created_at', 'desc')->with(['user', 'likes'])->get(),
+            'posts' => Post::orderBy('created_at', 'desc')->with(['user', 'likes'])->get()->map(function ($post) {
+                $post['isPostLikedByCurrentUser'] = $post->likedBy(Auth::user());
+                return $post;
+            }),
         ]);
     }
 
