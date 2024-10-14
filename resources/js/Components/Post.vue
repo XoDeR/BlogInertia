@@ -6,7 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import InputError from '@/Components/InputError.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
  
 dayjs.extend(relativeTime);
@@ -18,6 +18,16 @@ const form = useForm({
 });
 
 const editing = ref(false);
+
+const pluralize = (count, noun, suffix = 's') =>
+  `${count} ${noun}${count !== 1 ? suffix : ''}`;
+
+// usage: pluralize(2, 'like'); // 2 likes
+
+const likesMessage = computed(() => {
+    return pluralize(props.post.likes.length, 'like');
+})
+
 </script>
 
 <template>
@@ -62,18 +72,20 @@ const editing = ref(false);
             <div class="flex items-center">
                 <Link
                     as="button"
-                    :href="route('posts', post.id)" method="post"
+                    :href="route('posts.likes', post.id)" method="post"
                     class="block w-20 px-4 py-2 text-start text-sm leading-5 text-blue-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                 >
                     Like
                 </Link>
                 <Link
                     as="button"
-                    :href="route('posts', post.id)" method="post"
+                    :href="route('posts.likes', post.id)" method="delete"
                     class="block w-20 px-4 py-2 text-start text-sm leading-5 text-blue-700 transition duration-150 ease-in-out hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                 >
                     Unlike
                 </Link>
+
+                <span class="text-gray-800">{{ likesMessage }}</span>
             </div>
         </div>
     </div>

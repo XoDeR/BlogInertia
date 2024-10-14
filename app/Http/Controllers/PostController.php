@@ -20,7 +20,7 @@ class PostController extends Controller
         */
 
         return Inertia::render('Posts/Index', [
-            'posts' => Post::orderBy('created_at', 'desc')->with(['user'])->get(),
+            'posts' => Post::orderBy('created_at', 'desc')->with(['user', 'likes'])->get(),
         ]);
     }
 
