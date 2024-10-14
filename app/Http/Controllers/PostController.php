@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Http\RedirectResponse;
 
 class PostController extends Controller
 {
@@ -17,9 +18,10 @@ class PostController extends Controller
 
         return view('posts.index', ['posts' => $posts]);
         */
+        //dd(Post::orderBy('created_at', 'desc')->with(['user'])->get());
 
         return Inertia::render('Posts/Index', [
-            //
+            'posts' => Post::orderBy('created_at', 'desc')->with(['user'])->get(),
         ]);
     }
 
@@ -30,22 +32,18 @@ class PostController extends Controller
         */
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        /*
         $validated = $request->validate([
             'body' => 'required'
         ]);
 
-        $request->user()->posts()->create([
-            'body' => $request->body
-        ]);
+        $request->user()->posts()->create($validated);
 
-        return back();
-        */
+        return redirect(route('posts'));
     }
 
-    public function startEdit(Post $post)
+    public function edit(Post $post)
     {
         /*
         Gate::authorize('startEdit', $post);
@@ -54,7 +52,7 @@ class PostController extends Controller
         */
     }
 
-    public function edit(Request $request, Post $post)
+    public function update(Request $request, Post $post)
     {
         /*
         Gate::authorize('edit', $post);
