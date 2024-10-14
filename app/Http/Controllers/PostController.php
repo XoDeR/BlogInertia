@@ -18,7 +18,6 @@ class PostController extends Controller
 
         return view('posts.index', ['posts' => $posts]);
         */
-        //dd(Post::orderBy('created_at', 'desc')->with(['user'])->get());
 
         return Inertia::render('Posts/Index', [
             'posts' => Post::orderBy('created_at', 'desc')->with(['user'])->get(),
@@ -52,7 +51,7 @@ class PostController extends Controller
         */
     }
 
-    public function update(Request $request, Post $post)
+    public function update(Request $request, Post $post): RedirectResponse
     {
         /*
         Gate::authorize('edit', $post);
@@ -68,6 +67,15 @@ class PostController extends Controller
 
         return redirect()->action([PostController::class, 'index']);
         */
+        Gate::authorize('update', $post);
+
+        $validated = $request->validate([
+            'body' => 'required'
+        ]);
+
+        $post->update($validated);
+
+        return redirect(route('posts'));
     }
 
     public function destroy(Post $post)
